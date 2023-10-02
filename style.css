@@ -1,0 +1,33 @@
+* {
+  /* make border not add to the size of the element */
+  box-sizing: border-box;
+}
+
+main {
+  width: 80%;
+  margin: 3rem auto;
+}
+
+.container {
+  border: 1px solid black;
+  display: grid;
+  grid-template-columns: 25rem 1fr 1fr 1fr;
+  grid-template-rows: 4fr 1fr 40rem;
+}
+
+.container div {
+  background-color: lightgray;
+  margin: 0.5rem;
+  border: 1px solid black;
+}
+div:nth-child(3) {
+  background-color: hotpink;
+}
+
+div:nth-child(4n + 2) {
+  background-color: lightgreen;
+}
+
+div:nth-child(4n) {
+  background-color: skyblue;
+}
