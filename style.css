@@ -1,6 +1,5 @@
-* {
-  /* make border not add to the size of the element */
-  box-sizing: border-box;
+/* make border not add to the size of the element */
+/* box-sizing: border-box;
 }
 
 main {
@@ -20,7 +19,7 @@ section {
   grid-row-end: 4;
   grid-column-start: 1;
   grid-column-end: 3;
-}
+} */
 
 /* 
 .container {
@@ -47,3 +46,9 @@ div:nth-child(4n + 2) {
 div:nth-child(4n) {
   background-color: skyblue;
 } */
+
+#img-section {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid hotpink;
+}

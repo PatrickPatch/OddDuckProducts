@@ -1,15 +1,46 @@
-let gubbinsContainer = document.querySelector("section");
-let image1 = document.querySelector("section img:first-child");
-let image2 = document.querySelector("section img:nth-child(2)");
-let image3 = document.querySelector("section img:nth-child(3)");
+const image1 = document.getElementById("image1");
+const image2 = document.getElementById("image2");
+const image3 = document.getElementById("image3");
 
-function Gubbins(name, src) {
+let userClicks = 0;
+let maxClicks = 25;
+
+// let gubbinsContainer = document.querySelector("section");
+// let image1 = document.querySelector("section img:first-child");
+// let image2 = document.querySelector("section img:nth-child(2)");
+// let image3 = document.querySelector("section img:nth-child(3)");
+
+function Gubbin(name, src) {
   this.name = name;
-  this.srsc = src;
+  this.src = src;
   this.views = 0;
+  this.clicks = 0;
 }
+
+const gubbins = [
+  new Gubbin("bag.jpg", "./img/bag.jpg"),
+  new Gubbin("banana", "./img/banana.jpg"),
+  new Gubbin("bathroom", "./img/bathroom.jpg"),
+  new Gubbin("boots", "./img/boots.jpg"),
+  new Gubbin("breakfast", "./img/breakfast.jpg"),
+  new Gubbin("bubblegum", "./img/bubblegum.jpg"),
+  new Gubbin("chair", "./img/chair.jpg"),
+  new Gubbin("cthulhu", "./img/cthulhu.jpg"),
+  new Gubbin("dog-duck", "./img/dog-duck.jpg"),
+  new Gubbin("dragon", "./img/dragon.jpg"),
+  new Gubbin("pen", "./img/pen.jpg"),
+  new Gubbin("pet-sweep", "./img/pet-sweep.jpg"),
+  new Gubbin("scissors", "./img/scissors.jpg"),
+  new Gubbin("shark", "./img/shark.jpg"),
+  new Gubbin("sweep", "./img/sweep.png"),
+  new Gubbin("tauntaun", "./img/tauntaun.jpg"),
+  new Gubbin("unicorn", "./img/unicorn.jpg"),
+  new Gubbin("water-can", "./img/water-can.jpg"),
+  new Gubbin("wine-glass", "./img/wine-glass.jpg"),
+];
+
 function getRandomIndex() {
-  return Math.floor(Math.random() * allGubbins.length);
+  return Math.floor(Math.random() * gubbins.length);
 }
 function renderGubbins() {
   let gubbins1Index = getRandomIndex();
@@ -24,53 +55,53 @@ function renderGubbins() {
     (gubbins2Index = getRandomIndex()), (gubbins3Index = getRandomIndex());
   }
 
-  image1.src = allGubbins[gubbins1Index].src;
-  image2.src = allGubbins[gubbins2Index].src;
-  image3.src = allGubbins[gubbins3Index].src;
-  image1.alt = allGubbins[gubbins1Index].name;
-  image2.alt = allGubbins[gubbins2Index].name;
-  image3.alt = allGubbins[gubbins3Index].name;
+  image1.src = gubbins[gubbins1Index].src;
+  image2.src = gubbins[gubbins2Index].src;
+  image3.src = gubbins[gubbins3Index].src;
+  image1.alt = gubbins[gubbins1Index].name;
+  image2.alt = gubbins[gubbins2Index].name;
+  image3.alt = gubbins[gubbins3Index].name;
 
-  allGubbins[gubbins1Index].views++;
-  allGubbins[gubbins2Index].views++;
-  allGubbins[gubbins3Index].views++;
+  gubbins[gubbins1Index].views++;
+  gubbins[gubbins2Index].views++;
+  gubbins[gubbins3Index].views++;
 }
 
-function handleGubbinsClick(event) {
-  let clickedGubbins = event.target.alt;
-  if (event.target === gubbinsContainer) {
-    alert("Click on the pictures!");
-  } else {
-    renderGubbins();
+function handleImageClick(event) {
+  if (userClicks === maxClicks) {
+    alert("You're out of votes!");
+    return;
   }
-  for (let i = 0; i < allGubbins.length; i++) {
-    if (clickedGubbins === allGubbins[i].name) {
-      allGubbins[i].clicks++;
+  userClicks++;
+
+  let clickedGubbin = event.target.alt;
+
+  for (let i = 0; i < gubbins.length; i++) {
+    if (clickedGubbin === gubbins[i].name) {
+      gubbins[i].clicks++;
       break;
     }
   }
+  renderGubbins();
 }
-const allGubbins = [
-  new Gubbins("bag.jpg", "./img/bag.jpg"),
-  new Gubbins("banana", "./img/banana.jpg"),
-  new Gubbins("bathroom", "./img/bathroom.jpg"),
-  new Gubbins("boots", "./img/boots.jpg"),
-  new Gubbins("breakfast", "./img/breakfast.jpg"),
-  new Gubbins("bubblegum", "./img/bubblegum.jpg"),
-  new Gubbins("chair", "./img/chair.jpg"),
-  new Gubbins("cthulhu", "./img/cthulhu.jpg"),
-  new Gubbins("dog-duck", "./img/dog-duck.jpg"),
-  new Gubbins("dragon", "./img/dragon.jpg"),
-  new Gubbins("pen", "./img/pen.jpg"),
-  new Gubbins("pet-sweep", "./img/pet-sweep.jpg"),
-  new Gubbins("scissors", "./img/scissors.jpg"),
-  new Gubbins("shark", "./img/shark.jpg"),
-  new Gubbins("sweep", "./img/sweep.png"),
-  new Gubbins("tauntaun", "./img/tauntaun.jpg"),
-  new Gubbins("unicorn", "./img/unicorn.jpg"),
-  new Gubbins("water-can", "./img/water-can.jpg"),
-  new Gubbins("wine-glass", "./img/wine-glass.jpg"),
-];
-gubbinsContainer.addEventListener("click", handleGubbinsClick);
+
+// gubbinsContainer.addEventListener("click", handleGubbinsClick);
+
+image1.addEventListener("click", handleImageClick);
+image2.addEventListener("click", handleImageClick);
+image3.addEventListener("click", handleImageClick);
+
+function showResults() {
+  const results = document.getElementById("results");
+
+  for (let i = 0; i < gubbins.length; i++) {
+    const li = document.createElement("li");
+    const gubbin = gubbins[i];
+    li.textContent = `${gubbin.name} was viewed ${gubbin.views} times, and clicked ${gubbin.clicks} times`;
+    results.appendChild(li);
+  }
+}
+const viewResults = document.getElementById("view-results");
+viewResults.addEventListener("click", showResults);
 
 renderGubbins();
