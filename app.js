@@ -5,7 +5,7 @@ let image3 = document.querySelector("section img:nth-child(3)");
 
 function Gubbins(name, src) {
   this.name = name;
-  this.srsc = src;
+  this.src = src;
   this.views = 0;
 }
 function getRandomIndex() {
