@@ -55,6 +55,12 @@ function renderGubbins() {
     (gubbins2Index = getRandomIndex()), (gubbins3Index = getRandomIndex());
   }
 
+  //pull indexed items from array then randomise removed from array and add to new array called recent then replace recent
+
+  gubbins[gubbins1Index].views++;
+  gubbins[gubbins2Index].views++;
+  gubbins[gubbins3Index].views++;
+
   image1.src = gubbins[gubbins1Index].src;
   image2.src = gubbins[gubbins2Index].src;
   image3.src = gubbins[gubbins3Index].src;
@@ -105,3 +111,36 @@ const viewResults = document.getElementById("view-results");
 viewResults.addEventListener("click", showResults);
 
 renderGubbins();
+
+// craete a function that make a chart
+function renderChart() {
+  // get where we are going to put the chart
+  const ctx = document.getElementById("myChart"); // context of the chart
+
+  const labels = [];
+  const views = [];
+  const clicks = [];
+
+  // populate the arrays with data
+  // TODO: ^
+
+  // run the Chart function (that does the chart making)
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "# of views",
+          data: views,
+          borderWidth: 1,
+        },
+        {
+          label: "# of clicks",
+          data: clicks,
+          borderWidth: 1,
+        },
+      ],
+    },
+  });
+}
