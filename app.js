@@ -5,39 +5,42 @@ const image3 = document.getElementById("image3");
 let userClicks = 0;
 let maxClicks = 25;
 
-// let gubbinsContainer = document.querySelector("section");
-// let image1 = document.querySelector("section img:first-child");
-// let image2 = document.querySelector("section img:nth-child(2)");
-// let image3 = document.querySelector("section img:nth-child(3)");
+const gubbins = [];
 
-function Gubbin(name, src) {
+function Gubbin(name, views, clicks) {
   this.name = name;
-  this.src = src;
+  this.src = `./img/${name}.jpg`;
   this.views = 0;
   this.clicks = 0;
+  gubbins.push(this);
 }
 
-const gubbins = [
-  new Gubbin("bag.jpg", "./img/bag.jpg"),
-  new Gubbin("banana", "./img/banana.jpg"),
-  new Gubbin("bathroom", "./img/bathroom.jpg"),
-  new Gubbin("boots", "./img/boots.jpg"),
-  new Gubbin("breakfast", "./img/breakfast.jpg"),
-  new Gubbin("bubblegum", "./img/bubblegum.jpg"),
-  new Gubbin("chair", "./img/chair.jpg"),
-  new Gubbin("cthulhu", "./img/cthulhu.jpg"),
-  new Gubbin("dog-duck", "./img/dog-duck.jpg"),
-  new Gubbin("dragon", "./img/dragon.jpg"),
-  new Gubbin("pen", "./img/pen.jpg"),
-  new Gubbin("pet-sweep", "./img/pet-sweep.jpg"),
-  new Gubbin("scissors", "./img/scissors.jpg"),
-  new Gubbin("shark", "./img/shark.jpg"),
-  new Gubbin("sweep", "./img/sweep.png"),
-  new Gubbin("tauntaun", "./img/tauntaun.jpg"),
-  new Gubbin("unicorn", "./img/unicorn.jpg"),
-  new Gubbin("water-can", "./img/water-can.jpg"),
-  new Gubbin("wine-glass", "./img/wine-glass.jpg"),
-];
+if (localStorage.getItem("gubbins") === null) {
+  new Gubbin("bag", 0, 0);
+  new Gubbin("banana", 0, 0);
+  new Gubbin("bathroom", 0, 0);
+  new Gubbin("boots", 0, 0);
+  new Gubbin("breakfast", 0, 0);
+  new Gubbin("bubblegum", 0, 0);
+  new Gubbin("chair", 0, 0);
+  new Gubbin("cthulhu", 0, 0);
+  new Gubbin("dog-duck", 0, 0);
+  new Gubbin("dragon", 0, 0);
+  new Gubbin("pen", 0, 0);
+  new Gubbin("pet-sweep", 0, 0);
+  new Gubbin("scissors", 0, 0);
+  new Gubbin("shark", 0, 0);
+  new Gubbin("sweep", 0, 0);
+  new Gubbin("tauntaun", 0, 0);
+  new Gubbin("unicorn", 0, 0);
+  new Gubbin("water-can", 0, 0);
+  new Gubbin("wine-glass", 0, 0);
+} else {
+  const gubbinsLS = JSON.parse(localStorage.getItem("gubbins"));
+  for (let i = 0; i < gubbinsLS.length; i++) {
+    new Gubbin(gubbinsLS[i].name, gubbinsLS[i].views, gubbinsLS[i].clicks);
+  }
+}
 
 function getRandomIndex() {
   return Math.floor(Math.random() * gubbins.length);
@@ -54,8 +57,6 @@ function renderGubbins() {
   ) {
     (gubbins2Index = getRandomIndex()), (gubbins3Index = getRandomIndex());
   }
-
-  //pull indexed items from array then randomise removed from array and add to new array called recent then replace recent
 
   gubbins[gubbins1Index].views++;
   gubbins[gubbins2Index].views++;
@@ -77,6 +78,9 @@ function handleImageClick(event) {
   if (userClicks === maxClicks) {
     alert("You're out of votes!");
     renderChart();
+
+    localStorage.setItem("gubbins", JSON.stringify(gubbins));
+
     return;
   }
   userClicks++;
@@ -92,28 +96,10 @@ function handleImageClick(event) {
   renderGubbins();
 }
 
-// gubbinsContainer.addEventListener("click", handleGubbinsClick);
-
 image1.addEventListener("click", handleImageClick);
 image2.addEventListener("click", handleImageClick);
 image3.addEventListener("click", handleImageClick);
 
-function showResults() {
-  const results = document.getElementById("results");
-
-  for (let i = 0; i < gubbins.length; i++) {
-    const li = document.createElement("li");
-    const gubbin = gubbins[i];
-    li.textContent = `${gubbin.name} was viewed ${gubbin.views} times, and clicked ${gubbin.clicks} times`;
-    results.appendChild(li);
-  }
-}
-const viewResults = document.getElementById("view-results");
-viewResults.addEventListener("click", showResults);
-
-renderGubbins();
-
-// craete a function that make a chart
 function renderChart() {
   const ctx = document.getElementById("myChart");
 
@@ -121,13 +107,12 @@ function renderChart() {
   const views = [];
   const clicks = [];
 
-  // loop through my products array and add in the label, views and clicks data to my arrays
   for (let i = 0; i < gubbins.length; i++) {
     labels.push(gubbins[i].name);
     views.push(gubbins[i].views);
     clicks.push(gubbins[i].clicks);
   }
-  // run the Chart function (that does the chart making)
+
   new Chart(ctx, {
     type: "bar",
     data: {
@@ -147,3 +132,4 @@ function renderChart() {
     },
   });
 }
+renderGubbins();
