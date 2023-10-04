@@ -76,6 +76,7 @@ function renderGubbins() {
 function handleImageClick(event) {
   if (userClicks === maxClicks) {
     alert("You're out of votes!");
+    renderChart();
     return;
   }
   userClicks++;
@@ -114,16 +115,18 @@ renderGubbins();
 
 // craete a function that make a chart
 function renderChart() {
-  // get where we are going to put the chart
-  const ctx = document.getElementById("myChart"); // context of the chart
+  const ctx = document.getElementById("myChart");
 
   const labels = [];
   const views = [];
   const clicks = [];
 
-  // populate the arrays with data
-  // TODO: ^
-
+  // loop through my products array and add in the label, views and clicks data to my arrays
+  for (let i = 0; i < gubbins.length; i++) {
+    labels.push(gubbins[i].name);
+    views.push(gubbins[i].views);
+    clicks.push(gubbins[i].clicks);
+  }
   // run the Chart function (that does the chart making)
   new Chart(ctx, {
     type: "bar",
