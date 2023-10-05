@@ -3,7 +3,7 @@ const image2 = document.getElementById("image2");
 const image3 = document.getElementById("image3");
 
 let userClicks = 0;
-let maxClicks = 25;
+let maxClicks = 7;
 
 const gubbins = [];
 
@@ -79,7 +79,6 @@ function renderGubbins() {
 function handleImageClick(event) {
   if (userClicks === maxClicks) {
     alert("You're out of votes!");
-    renderChart();
 
     localStorage.setItem("gubbinstorage", JSON.stringify(gubbins));
 
@@ -97,41 +96,8 @@ function handleImageClick(event) {
   }
   renderGubbins();
 }
-
 image1.addEventListener("click", handleImageClick);
 image2.addEventListener("click", handleImageClick);
 image3.addEventListener("click", handleImageClick);
 
-function renderChart() {
-  const ctx = document.getElementById("myChart");
-
-  const labels = [];
-  const views = [];
-  const clicks = [];
-
-  for (let i = 0; i < gubbins.length; i++) {
-    labels.push(gubbins[i].name);
-    views.push(gubbins[i].views);
-    clicks.push(gubbins[i].clicks);
-  }
-
-  new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: "# of views",
-          data: views,
-          borderWidth: 1,
-        },
-        {
-          label: "# of clicks",
-          data: clicks,
-          borderWidth: 1,
-        },
-      ],
-    },
-  });
-}
 renderGubbins();
