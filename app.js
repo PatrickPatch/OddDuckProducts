@@ -10,12 +10,13 @@ const gubbins = [];
 function Gubbin(name, views, clicks) {
   this.name = name;
   this.src = `./img/${name}.jpg`;
-  this.views = 0;
-  this.clicks = 0;
+  this.views = views;
+  this.clicks = clicks;
+
   gubbins.push(this);
 }
 
-if (localStorage.getItem("gubbins") === null) {
+if (localStorage.getItem("gubbinstorage") === null) {
   new Gubbin("bag", 0, 0);
   new Gubbin("banana", 0, 0);
   new Gubbin("bathroom", 0, 0);
@@ -36,7 +37,8 @@ if (localStorage.getItem("gubbins") === null) {
   new Gubbin("water-can", 0, 0);
   new Gubbin("wine-glass", 0, 0);
 } else {
-  const gubbinsLS = JSON.parse(localStorage.getItem("gubbins"));
+  const gubbinsLS = JSON.parse(localStorage.getItem("gubbinstorage"));
+
   for (let i = 0; i < gubbinsLS.length; i++) {
     new Gubbin(gubbinsLS[i].name, gubbinsLS[i].views, gubbinsLS[i].clicks);
   }
@@ -77,9 +79,8 @@ function renderGubbins() {
 function handleImageClick(event) {
   if (userClicks === maxClicks) {
     alert("You're out of votes!");
-    renderChart();
 
-    localStorage.setItem("gubbins", JSON.stringify(gubbins));
+    localStorage.setItem("gubbinstorage", JSON.stringify(gubbins));
 
     return;
   }
@@ -95,41 +96,8 @@ function handleImageClick(event) {
   }
   renderGubbins();
 }
-
 image1.addEventListener("click", handleImageClick);
 image2.addEventListener("click", handleImageClick);
 image3.addEventListener("click", handleImageClick);
 
-function renderChart() {
-  const ctx = document.getElementById("myChart");
-
-  const labels = [];
-  const views = [];
-  const clicks = [];
-
-  for (let i = 0; i < gubbins.length; i++) {
-    labels.push(gubbins[i].name);
-    views.push(gubbins[i].views);
-    clicks.push(gubbins[i].clicks);
-  }
-
-  new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: "# of views",
-          data: views,
-          borderWidth: 1,
-        },
-        {
-          label: "# of clicks",
-          data: clicks,
-          borderWidth: 1,
-        },
-      ],
-    },
-  });
-}
 renderGubbins();
