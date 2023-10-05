@@ -3,7 +3,7 @@ const image2 = document.getElementById("image2");
 const image3 = document.getElementById("image3");
 
 let userClicks = 0;
-let maxClicks = 7;
+let maxClicks = 25;
 
 const gubbins = [];
 
