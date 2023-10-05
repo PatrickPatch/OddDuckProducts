@@ -10,12 +10,13 @@ const gubbins = [];
 function Gubbin(name, views, clicks) {
   this.name = name;
   this.src = `./img/${name}.jpg`;
-  this.views = 0;
-  this.clicks = 0;
+  this.views = views;
+  this.clicks = clicks;
+
   gubbins.push(this);
 }
 
-if (localStorage.getItem("gubbins") === null) {
+if (localStorage.getItem("gubbinstorage") === null) {
   new Gubbin("bag", 0, 0);
   new Gubbin("banana", 0, 0);
   new Gubbin("bathroom", 0, 0);
@@ -36,7 +37,8 @@ if (localStorage.getItem("gubbins") === null) {
   new Gubbin("water-can", 0, 0);
   new Gubbin("wine-glass", 0, 0);
 } else {
-  const gubbinsLS = JSON.parse(localStorage.getItem("gubbins"));
+  const gubbinsLS = JSON.parse(localStorage.getItem("gubbinstorage"));
+
   for (let i = 0; i < gubbinsLS.length; i++) {
     new Gubbin(gubbinsLS[i].name, gubbinsLS[i].views, gubbinsLS[i].clicks);
   }
@@ -79,7 +81,7 @@ function handleImageClick(event) {
     alert("You're out of votes!");
     renderChart();
 
-    localStorage.setItem("gubbins", JSON.stringify(gubbins));
+    localStorage.setItem("gubbinstorage", JSON.stringify(gubbins));
 
     return;
   }
